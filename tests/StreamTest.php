@@ -29,13 +29,10 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->resource = fopen('php://temp', 'r+');
-		$this->stream = new Stream($this->resource);
-		$this->level = error_reporting(0);
-	}
+		fwrite($this->resource, 'test');
+		fseek($this->resource, 0);
 
-	public function tearDown()
-	{
-		error_reporting($this->level);
+		$this->stream = new Stream($this->resource);
 	}
 
 	/**
@@ -54,7 +51,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
 	public function test__toString()
 	{
-		$this->assertEmpty($this->stream->__toString());
+		$this->assertEquals('test', $this->stream->__toString());
 	}
 
 	public function test__toStringDetach()
@@ -76,7 +73,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetSize()
 	{
-		$this->assertEquals(0, $this->stream->getSize());
+		$this->assertEquals(4, $this->stream->getSize());
 	}
 
 	public function testGetSizeError()
@@ -97,7 +94,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 	public function testTellError()
 	{
 		fclose($this->resource);
-		$this->stream->tell();
+		@$this->stream->tell();
 	}
 
 	public function testEof()
@@ -132,7 +129,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 	public function testSeekError()
 	{
 		$this->assertTrue(fclose($this->resource));
-		$this->stream->seek(0);
+		@$this->stream->seek(0);
 	}
 
 	public function testRewind()
@@ -167,7 +164,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 	public function testWriteError()
 	{
 		$this->assertTrue(fclose($this->resource));
-		$this->stream->write('test');
+		@$this->stream->write('test');
 	}
 
 	public function testIsReadable()
@@ -177,7 +174,10 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
 	public function testRead()
 	{
-		$this->assertEquals('', $this->stream->read(1024));
+		$this->assertEquals('t', $this->stream->read(1));
+		$this->assertEquals('e', $this->stream->read(1));
+		$this->assertEquals('s', $this->stream->read(1));
+		$this->assertEquals('t', $this->stream->read(1));
 	}
 
 	/**
@@ -197,32 +197,12 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 	public function testReadError()
 	{
 		$this->assertTrue(fclose($this->resource));
-		$this->stream->read(1024);
+		@$this->stream->read(1024);
 	}
 
 	public function testGetContents()
 	{
-		$this->assertEquals('', $this->stream->getContents());
-	}
-
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Stream is not readable
-	 */
-	public function testGetContentsFail()
-	{
-		$this->assertEquals($this->resource, $this->stream->detach());
-		$this->stream->getContents();
-	}
-
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Error while reading the stream
-	 */
-	public function testGetContentsError()
-	{
-		$this->assertTrue(fclose($this->resource));
-		$this->stream->getContents();
+		$this->assertEquals('test', $this->stream->getContents());
 	}
 
 	public function testGetMetadata()

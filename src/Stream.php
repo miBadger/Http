@@ -211,7 +211,7 @@ class Stream implements StreamInterface
 			throw new \RuntimeException('Stream is not readable');
 		}
 
-		$result = fread($this->resource, $length);
+		$result = stream_get_contents($this->resource, $length);
 
 		if ($result === false) {
 			throw new \RuntimeException('Error while reading the stream');
@@ -225,17 +225,7 @@ class Stream implements StreamInterface
 	 */
 	public function getContents()
 	{
-		if (!$this->isReadable()) {
-			throw new \RuntimeException('Stream is not readable');
-		}
-
-		$result = stream_get_contents($this->resource);
-
-		if ($result === false) {
-			throw new \RuntimeException('Error while reading the stream');
-		}
-
-		return $result;
+		return $this->read(-1);
 	}
 
 	/**
