@@ -1,0 +1,187 @@
+<?php
+
+/**
+ * This file is part of the miBadger package.
+ *
+ * @author Michael Webbers <michael@webbers.io>
+ * @license http://opensource.org/licenses/Apache-2.0 Apache v2 License
+ * @version 1.0.0
+ */
+
+namespace miBadger\Http;
+
+/**
+ * The server request test class.
+ *
+ * @since 1.0.0
+ */
+class ServerRequestTest extends \PHPUnit_Framework_TestCase
+{
+	/** @var ServerRequest The server request. */
+	private $serverRequest;
+
+	public static function setUpBeforeClass()
+	{
+		$_FILES = [
+			'single' => [
+				'name' => 'test.txt',
+				'type' => 'text/plain',
+				'tmp_name' => 'tmp.txt',
+				'error' => UPLOAD_ERR_OK,
+				'size' => 0
+			],
+			'indent' => [
+				'multiple' => [
+					'name' => [
+						'test1.txt',
+						'test2.txt'
+					],
+					'type' => [
+						'text/plain',
+						'text/plain'
+					],
+					'tmp_name' => [
+						'tmp1.txt',
+						'tmp2.txt'
+					],
+					'error' => [
+						UPLOAD_ERR_OK,
+						UPLOAD_ERR_OK
+					],
+					'size' => [
+						0,
+						0
+					]
+				]
+			]
+		];
+	}
+
+	public static function tearDownAfterClass()
+	{
+		unset($_FILES);
+	}
+
+	public function setUp()
+	{
+		$this->serverRequest = new ServerRequest();
+	}
+
+	public function test__Construct()
+	{
+		new ServerRequest('GET', new URI('/'));
+	}
+
+	public function testGetServerParams()
+	{
+		$this->assertEquals($_SERVER, $this->serverRequest->getServerParams());
+	}
+
+	public function testGetCookieParams()
+	{
+		$this->assertEquals($_COOKIE, $this->serverRequest->getCookieParams());
+	}
+
+	public function testWithCookieParams()
+	{
+		$this->assertEquals($this->serverRequest, $this->serverRequest->withCookieParams([]));
+	}
+
+	public function testGetQueryParams()
+	{
+		$this->assertEquals($_GET, $this->serverRequest->getQueryParams());
+	}
+
+	public function testWithQueryParams()
+	{
+		$this->assertEquals($this->serverRequest, $this->serverRequest->withQueryParams([]));
+	}
+
+	public function testGetUploadedFiles()
+	{
+		$uploadedFile1 = new UploadedFile('test.txt', 'text/plain', 'tmp.txt', UPLOAD_ERR_OK, 0);
+		$uploadedFile2 = new UploadedFile('test1.txt', 'text/plain', 'tmp1.txt', UPLOAD_ERR_OK, 0);
+		$uploadedFile3 = new UploadedFile('test2.txt', 'text/plain', 'tmp2.txt', UPLOAD_ERR_OK, 0);
+
+		$result = [
+			'single' => $uploadedFile1,
+			'indent' => [
+				'multiple' => [
+					$uploadedFile2,
+					$uploadedFile3
+				]
+			]
+		];
+
+		$this->assertEquals($result, $this->serverRequest->getUploadedFiles());
+	}
+
+	public function testWithUploadedFiles()
+	{
+		$serverRequest = $this->serverRequest->withUploadedFiles([]);
+
+		$this->assertEquals([], $serverRequest->getUploadedFiles());
+		$this->assertNotSame($this->serverRequest, $serverRequest);
+	}
+
+	public function testGetParsedBody()
+	{
+		$this->assertNull($this->serverRequest->getParsedBody());
+	}
+
+	public function testGetParsedBodyPost()
+	{
+		$serverRequest = new ServerRequest('POST');
+		$serverRequest = $serverRequest->withHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		$this->assertEquals($_POST, $serverRequest->getParsedBody());
+	}
+
+	public function testGetParsedBodyJson()
+	{
+		$body = '{"key" : "value"}';
+
+		$stream = new Stream(fopen('php://temp', 'r+'));
+		$stream->write($body);
+
+		$serverRequest = new ServerRequest('POST');
+		$serverRequest = $serverRequest->withHeader('Content-Type', 'application/json')
+			->withBody($stream);
+
+		$this->assertEquals(json_decode($body), $serverRequest->getParsedBody());
+	}
+
+	public function testWithParsedBody()
+	{
+		$serverRequest = $this->serverRequest->withParsedBody('body');
+
+		$this->assertEquals('body', $serverRequest->getParsedBody());
+		$this->assertNotSame($this->serverRequest, $serverRequest);
+	}
+
+	public function testGetAttributes()
+	{
+		$this->assertEquals([], $this->serverRequest->getAttributes());
+	}
+
+	public function testGetAttribute()
+	{
+		$this->assertNull($this->serverRequest->getAttribute('name'));
+	}
+
+	public function testWithAttribute()
+	{
+		$serverRequest = $this->serverRequest->withAttribute('name', 'value');
+
+		$this->assertEquals('value', $serverRequest->getAttribute('name'));
+		$this->assertNotSame($this->serverRequest, $serverRequest);
+	}
+
+	public function testWithoutAttribute()
+	{
+		$serverRequest = $this->serverRequest->withoutAttribute('name', 'value');
+
+		$this->assertEquals('default', $serverRequest->getAttribute('name', 'default'));
+		$this->assertNotSame($this->serverRequest, $serverRequest);
+	}
+}
