@@ -5,7 +5,8 @@
 	"keywords": [
 		"mibadger",
 		"badger",
-		"http"
+		"http",
+		"psr-7"
 	],
 	"homepage": "https://www.mibadger.com",
 	"license": "Apache-2.0",
@@ -25,6 +26,9 @@
 	"require-dev": {
 		"phpunit/phpunit": "5.*",
 		"mikey179/vfsStream": "1.*"
+	},
+	"provide": {
+		"psr/http-message-implementation": "1.0"
 	},
 	"autoload": {
 		"psr-4": {
