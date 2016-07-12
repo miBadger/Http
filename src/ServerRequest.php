@@ -76,7 +76,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 		$this->parsedBody = null;
 		$this->attributes = [];
 
-		parent::__construct($this->initMethod($method), $this->initUri($uri), $version, $headers, $body);
+		parent::__construct($this->initMethod($method), $this->initUri($uri), $version, $this->initHeaders($headers), $body);
 	}
 
 	/**
@@ -107,6 +107,17 @@ class ServerRequest extends Request implements ServerRequestInterface
 		$path = isset($this->getServerParams()['REQUEST_URI']) ? $this->getServerParams()['REQUEST_URI'] : '';
 
 		return new URI($host . $path);
+	}
+
+	/**
+	 * Initialize the headers.
+	 *
+	 * @param array $headers
+	 * @return array the headers.
+	 */
+	private function initHeaders($headers)
+	{
+		return $headers ?: getallheaders();
 	}
 
 	/**

@@ -1,18 +1,41 @@
 # UploadedFile
 
-The uploaded file class is used to simplify http file upload operations.
+The uploaded file class.
 
 ## Example(s)
 
 ```php
-// Create a new server request.
-$serverRequest = new ServerRequest();
+<?php
 
-// Get stream
-$uploadedFiles = $serverRequest->getUploadedFiles();
+use miBadger\Http\UploadedFile;
 
-// Get content
-foreach ($uploadedFiles as $uploadedFile) {
-	uploadedFile->getStream()->getContents();
-}
+/**
+ * Retrieve a stream representing the uploaded file.
+ */
+$uploadedFile->getStream();
+
+/**
+ * Move the uploaded file to a new location.
+ */
+$uploadedFile->moveTo($targetPath);
+
+/**
+ * Retrieve the file size.
+ */
+$uploadedFile->getSize();
+
+/**
+ * Retrieve the error associated with the uploaded file.
+ */
+$uploadedFile->getError();
+
+/**
+ * Retrieve the filename sent by the client.
+ */
+$uploadedFile->getClientFilename();
+
+/**
+ * Retrieve the media type sent by the client.
+ */
+$uploadedFile->getClientMediaType();
 ```

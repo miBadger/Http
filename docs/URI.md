@@ -2,9 +2,16 @@
 
 The URI class is used to simplify URI operations.
 
-## Components
+## Example(s)
 
 ```PHP
+<?php
+
+use miBadger\Http\URI;
+
+/**
+ * The URI components.
+ */
 URI::SCHEME;
 URI::AUTHORITY;
 URI::USERNAME;
@@ -18,18 +25,88 @@ URI::QUERY;
 URI::FRAGMENT;
 ```
 
-## Example(s)
-
 ```php
-// Create an URI.
-$uri = new URI('http://www.example.org/directory/file?key=value#fragment');
+<?php
 
-// Get host.
-$uri->getHost(); // www.example.org
+use miBadger\Http\URI;
 
-// Get path.
-$uri->getPath(); // /directory/file
+/**
+ * Return the string representation as a URI reference.
+ */
+$uri->__toString();
 
-// Get query value.
-$uri->getQueryValue('key'); // value
+/**
+ * Retrieve the scheme component of the URI.
+ */
+$uri->getScheme();
+
+/**
+ * Retrieve the authority component of the URI.
+ */
+$uri->getAuthority();
+
+/**
+ * Retrieve the user information component of the URI.
+ */
+$uri->getUserInfo();
+
+/**
+ * Retrieve the host component of the URI.
+ */
+$uri->getHost();
+
+/**
+ * Retrieve the port component of the URI.
+ */
+$uri->getPort();
+
+/**
+ * Retrieve the path component of the URI.
+ */
+$uri->getPath();
+
+/**
+ * Retrieve the query string of the URI.
+ */
+$uri->getQuery();
+
+/**
+ * Retrieve the fragment component of the URI.
+ */
+$uri->getFragment();
+
+/**
+ * Return an instance with the specified scheme.
+ */
+$uri->withScheme($scheme);
+
+/**
+ * Return an instance with the specified user information.
+ */
+$uri->withUserInfo($user, $password = null);
+
+/**
+ * Return an instance with the specified host.
+ */
+$uri->withHost($host);
+
+/**
+ * Return an instance with the specified port.
+ */
+$uri->withPort($port);
+
+/**
+ * Return an instance with the specified path.
+ */
+$uri->withPath($path);
+
+/**
+ * Return an instance with the specified query string.
+ */
+$uri->withQuery($query);
+
+/**
+ * Return an instance with the specified URI fragment.
+ */
+$uri->withFragment($fragment);
 ```
