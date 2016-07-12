@@ -5,9 +5,12 @@ The server response class is used to simplify http server response operations.
 ## Example(s)
 
 ```php
-// Create a new server response.
-$serverResponse = new ServerResponse();
+<?php
 
-// Send server response.
+use miBadger\Http\ServerRequest;
+
+/**
+ * Send the server response.
+ */
 $serverResponse->send();
 ```

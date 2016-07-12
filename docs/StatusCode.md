@@ -5,11 +5,9 @@ The status code class can be used to validate that http status codes are RFC 723
 ## Example(s)
 
 ```php
-$statusCode = new StatusCode(StatusCode::SUCCESFULL_OK);
+<?php
 
-try {
-	$statusCode = StatusCode::valueOf(404);
-} catch (UnexpectedValueException $e) {
-	// Invalid status code
-}
+use miBadger\Http\StatusCode;
+
+$statusCode = new StatusCode(404);
 ```

@@ -36,8 +36,9 @@ class ServerResponse extends Response
 
 		parent::__construct($statusCode, $reasonPhrase, $version, $headers, $body);
 	}
+
 	/**
-	 * Send the server response
+	 * Send the server response.
 	 *
 	 * @return null
 	 */
