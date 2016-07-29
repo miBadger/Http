@@ -69,7 +69,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
 		$this->serverParams = $_SERVER;
 		$this->cookieParams = $_COOKIE;
-		$this->queryParams = $_GET;
+		$this->queryParams = $this->initQueryParams($this->serverParams);
 		$this->postParams = $_POST;
 		$this->filesParams = $_FILES;
 		$this->uploadedFiles = $this->initUploadedFiles($this->filesParams);
@@ -118,6 +118,23 @@ class ServerRequest extends Request implements ServerRequestInterface
 	private function initHeaders($headers)
 	{
 		return $headers ?: getallheaders();
+	}
+
+	/**
+	 * Initialize the headers.
+	 *
+	 * @param string $uri
+	 * @return array the headers.
+	 */
+	private function initQueryParams($serverParams)
+	{
+		if (!isset($serverParams['REQUEST_URI']) || !($query = parse_url($serverParams['REQUEST_URI'], \PHP_URL_QUERY))) {
+			return [];
+		}
+
+		parse_str($query, $result);
+
+		return $result;
 	}
 
 	/**

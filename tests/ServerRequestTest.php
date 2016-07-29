@@ -17,11 +17,21 @@ namespace miBadger\Http;
  */
 class ServerRequestTest extends \PHPUnit_Framework_TestCase
 {
+	/** @var array The files. */
+	private static $files;
+
+	/** @var array The server. */
+	private static $server;
+
 	/** @var ServerRequest The server request. */
 	private $serverRequest;
 
 	public static function setUpBeforeClass()
 	{
+		self::$server = $_SERVER;
+		self::$files = $_FILES;
+
+		$_SERVER['REQUEST_URI'] = '/test/?key=value';
 		$_FILES = [
 			'single' => [
 				'name' => 'test.txt',
@@ -59,7 +69,8 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
 	public static function tearDownAfterClass()
 	{
-		unset($_FILES);
+		$_FILES = self::$files;
+		$_SERVER = self::$server;
 	}
 
 	public function setUp()
@@ -89,12 +100,22 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetQueryParams()
 	{
-		$this->assertEquals($_GET, $this->serverRequest->getQueryParams());
+		$this->assertEquals(['key' => 'value'], $this->serverRequest->getQueryParams());
+	}
+
+	public function testGetQueryParamsEmpty()
+	{
+		$server = $_SERVER;
+		unset($_SERVER['REQUEST_URI']);
+
+		$this->assertEquals([], (new ServerRequest())->getQueryParams());
+
+		$_SERVER = $server;
 	}
 
 	public function testWithQueryParams()
 	{
-		$this->assertEquals($this->serverRequest, $this->serverRequest->withQueryParams([]));
+		$this->assertEquals($this->serverRequest, $this->serverRequest->withQueryParams(['key' => 'value']));
 	}
 
 	public function testGetUploadedFiles()
