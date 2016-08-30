@@ -31,7 +31,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 		self::$server = $_SERVER;
 		self::$files = $_FILES;
 
-		$_SERVER['REQUEST_URI'] = '/test/?key=value';
+		$_SERVER['REQUEST_URI'] = '/test/?key=value&key2[]=value1&key2[]=value2';
 		$_FILES = [
 			'single' => [
 				'name' => 'test.txt',
@@ -100,7 +100,15 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetQueryParams()
 	{
-		$this->assertEquals(['key' => 'value'], $this->serverRequest->getQueryParams());
+		$queryParams = [
+			'key' => 'value',
+			'key2' => [
+				'value1',
+				'value2'
+			]
+		];
+
+		$this->assertEquals($queryParams, $this->serverRequest->getQueryParams());
 	}
 
 	public function testGetQueryParamsEmpty()
@@ -115,7 +123,15 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
 	public function testWithQueryParams()
 	{
-		$this->assertEquals($this->serverRequest, $this->serverRequest->withQueryParams(['key' => 'value']));
+		$queryParams = [
+			'key' => 'value',
+			'key2' => [
+				'value1',
+				'value2'
+			]
+		];
+
+		$this->assertEquals($this->serverRequest, $this->serverRequest->withQueryParams($queryParams));
 	}
 
 	public function testGetUploadedFiles()
@@ -154,6 +170,14 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 	{
 		$serverRequest = new ServerRequest('POST');
 		$serverRequest = $serverRequest->withHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		$this->assertEquals($_POST, $serverRequest->getParsedBody());
+	}
+
+	public function testGetParsedBodyPostWebkit()
+	{
+		$serverRequest = new ServerRequest('POST');
+		$serverRequest = $serverRequest->withHeader('Content-Type', ['application/x-www-form-urlencoded', 'boundary=----WebKitFormBoundary']);
 
 		$this->assertEquals($_POST, $serverRequest->getParsedBody());
 	}

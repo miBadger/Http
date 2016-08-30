@@ -318,13 +318,13 @@ class ServerRequest extends Request implements ServerRequestInterface
 			return $this->parsedBody;
 		}
 
-		$contentType = $this->getHeaderLine('Content-Type');
+		$contentTypes = $this->getHeader('Content-Type');
 
-		if ($this->getMethod() === 'POST' && ($contentType === 'application/x-www-form-urlencoded' || $contentType === 'multipart/form-data')) {
+		if ($this->getMethod() === 'POST' && (in_array('application/x-www-form-urlencoded', $contentTypes) || in_array('multipart/form-data', $contentTypes))) {
 			return $this->postParams;
 		}
 
-		if ($contentType === 'application/json') {
+		if (in_array('application/json', $contentTypes)) {
 			return json_decode((string) $this->getBody());
 		}
 
