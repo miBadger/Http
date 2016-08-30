@@ -174,6 +174,14 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($_POST, $serverRequest->getParsedBody());
 	}
 
+	public function testGetParsedBodyPostWebkit()
+	{
+		$serverRequest = new ServerRequest('POST');
+		$serverRequest = $serverRequest->withHeader('Content-Type', ['application/x-www-form-urlencoded', 'boundary=----WebKitFormBoundary']);
+
+		$this->assertEquals($_POST, $serverRequest->getParsedBody());
+	}
+
 	public function testGetParsedBodyJson()
 	{
 		$body = '{"key" : "value"}';
