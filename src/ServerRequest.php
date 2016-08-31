@@ -73,7 +73,6 @@ class ServerRequest extends Request implements ServerRequestInterface
 		$this->postParams = $_POST;
 		$this->filesParams = $_FILES;
 		$this->uploadedFiles = $this->initUploadedFiles($this->filesParams);
-		$this->parsedBody = null;
 		$this->attributes = [];
 
 		parent::__construct($this->initMethod($method), $this->initUri($uri), $version, $this->initHeaders($headers), $body);
@@ -318,17 +317,32 @@ class ServerRequest extends Request implements ServerRequestInterface
 			return $this->parsedBody;
 		}
 
-		$contentTypes = $this->getHeader('Content-Type');
-
-		if ($this->getMethod() === 'POST' && (in_array('application/x-www-form-urlencoded', $contentTypes) || in_array('multipart/form-data', $contentTypes))) {
+		if ($this->getMethod() === 'POST' && ($this->hasContentType('application/x-www-form-urlencoded') || $this->hasContentType('multipart/form-data'))) {
 			return $this->postParams;
 		}
 
-		if (in_array('application/json', $contentTypes)) {
+		if ($this->hasContentType('application/json')) {
 			return json_decode((string) $this->getBody());
 		}
 
 		return null;
+	}
+
+	/**
+	 * Checks if a content type header exists with the given content type.
+	 *
+	 * @param string $contentType
+	 * @return true if a content type header exists with the given content type.
+	 */
+	private function hasContentType($contentType)
+	{
+		foreach ($this->getHeader('Content-Type') as $key => $value) {
+			if (substr($value, 0, strlen($contentType)) == $contentType) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
