@@ -10,12 +10,14 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The response test class.
  *
  * @since 1.0.0
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
 	/** @var Response The response. */
 	private $response;

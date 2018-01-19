@@ -10,12 +10,14 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The stream test.
  *
  * @since 1.0.0
  */
-class StreamTest extends \PHPUnit_Framework_TestCase
+class StreamTest extends TestCase
 {
 	/** @var resource The resource. */
 	private $resource;
@@ -47,6 +49,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 	public function test__destroy()
 	{
 		unset($this->stream);
+		$this->assertTrue(true);
 	}
 
 	public function test__toString()

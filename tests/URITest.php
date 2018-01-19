@@ -10,12 +10,14 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The URI test class.
  *
  * @since 1.0.0
  */
-class URITest extends \PHPUnit_Framework_TestCase
+class URITest extends TestCase
 {
 	/** @var URI The URI. */
 	private $uri;

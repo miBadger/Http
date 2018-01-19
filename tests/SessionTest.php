@@ -10,31 +10,28 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The session test.
  *
  * @since 1.0.0
  */
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends TestCase
 {
-	public static function setUpBeforeClass()
-	{
-		$_SESSION = [];
-		Session::getInstance();
-	}
-
-	public static function tearDownAfterClass()
-	{
-		unset($_SESSION);
-	}
-
 	public function setUp()
 	{
+		$_SESSION = [];
 		$object = Session::getInstance();
 		$reflection = new \ReflectionClass(get_class($object));
 		$method = $reflection->getMethod('__construct');
 		$method->setAccessible(true);
 		$method->invokeArgs($object, []);
+	}
+
+	public function tearDown()
+	{
+		unset($_SESSION);
 	}
 
 	/**

@@ -10,12 +10,14 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The server request test class.
  *
  * @since 1.0.0
  */
-class ServerRequestTest extends \PHPUnit_Framework_TestCase
+class ServerRequestTest extends TestCase
 {
 	/** @var array The files. */
 	private static $files;
@@ -80,7 +82,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
 	public function test__Construct()
 	{
-		new ServerRequest('GET', new URI('/'));
+		$this->assertInstanceOf(ServerRequest::class, new ServerRequest('GET', new URI('/')));
 	}
 
 	public function testGetServerParams()
