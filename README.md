@@ -3,6 +3,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/miBadger/miBadger.Http/badges/build.png?b=master)](https://scrutinizer-ci.com/g/miBadger/miBadger.Http/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/miBadger/miBadger.Http/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/miBadger/miBadger.Http/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/miBadger/miBadger.Http/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/miBadger/miBadger.Http/?branch=master)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/96ddbe84-d8eb-4b6c-954a-7bd2d90d0c1c/mini.png)](https://insight.sensiolabs.com/projects/96ddbe84-d8eb-4b6c-954a-7bd2d90d0c1c)
 
 The HTTP Component.
 
