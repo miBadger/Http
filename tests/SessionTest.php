@@ -45,12 +45,26 @@ class SessionTest extends TestCase
 	/**
 	 * @runInSeparateProcess
  	 * @expectedException \RuntimeException
- 	 * @expectedExceptionMessage Can't start session
+ 	 * @expectedExceptionMessage Can't start a new session.
 	 */
-	public function testStartException()
+	public function testStartExceptionStatus()
 	{
 		$this->assertNull(Session::start('test'));
-		$this->assertNull(Session::start('test'));
+
+		Session::start('test');
+	}
+
+	/**
+	 * @runInSeparateProcess
+ 	 * @expectedException \RuntimeException
+ 	 * @expectedExceptionMessage Failed to start a new session.
+	 */
+	public function testStartExceptionFailed()
+	{
+		$f = function () { return false; };
+		session_set_save_handler($f, $f, $f, $f, $f, $f);
+
+		@Session::start('test');
 	}
 
 	/**
@@ -65,13 +79,31 @@ class SessionTest extends TestCase
 	/**
 	 * @runInSeparateProcess
  	 * @expectedException \RuntimeException
- 	 * @expectedExceptionMessage Can't destroy session
+ 	 * @expectedExceptionMessage Can't destroy the session. There is no active session.
 	 */
-	public function testDestroyException()
+	public function testDestroyExceptionStatus()
 	{
 		$this->assertNull(Session::start());
 		$this->assertNull(Session::destroy());
-		$this->assertNull(Session::destroy());
+
+		Session::destroy();
+	}
+
+	/**
+	 * @runInSeparateProcess
+ 	 * @expectedException \RuntimeException
+ 	 * @expectedExceptionMessage Failed to destroy the active session.
+	 */
+	public function testDestroyExceptionFailed()
+	{
+		$t = function () { return true; };
+		$f = function () { return false; };
+		$s = function () { return ''; };
+		session_set_save_handler($t, $t, $s, $s, $f, $t);
+
+		$this->assertNull(Session::start());
+
+		@Session::destroy();
 	}
 
 	public function testGet()

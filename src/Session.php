@@ -43,12 +43,16 @@ class Session implements \IteratorAggregate
 	 */
 	public static function start($name = null)
 	{
+		if (session_status() !== PHP_SESSION_NONE) {
+			throw new \RuntimeException('Can\'t start a new session.');
+		}
+
 		if ($name !== null) {
 			session_name($name);
 		}
 
-		if (session_status() !== PHP_SESSION_NONE || !session_start()) {
-			throw new \RuntimeException('Can\'t start session.');
+		if (!session_start()) {
+			throw new \RuntimeException('Failed to start a new session.');
 		}
 	}
 
@@ -60,8 +64,12 @@ class Session implements \IteratorAggregate
 	 */
 	public static function destroy()
 	{
-		if (session_status() !== PHP_SESSION_ACTIVE || !session_destroy()) {
-			throw new \RuntimeException('Can\'t destroy session.');
+		if (session_status() !== PHP_SESSION_ACTIVE) {
+			throw new \RuntimeException('Can\'t destroy the session. There is no active session.');
+		}
+
+		if (!session_destroy()) {
+			throw new \RuntimeException('Failed to destroy the active session.');
 		}
 	}
 
