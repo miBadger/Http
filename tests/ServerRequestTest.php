@@ -126,14 +126,10 @@ class ServerRequestTest extends TestCase
 	public function testWithQueryParams()
 	{
 		$queryParams = [
-			'key' => 'value',
-			'key2' => [
-				'value1',
-				'value2'
-			]
+			'test' => 'test'
 		];
 
-		$this->assertEquals($this->serverRequest, $this->serverRequest->withQueryParams($queryParams));
+		$this->assertEquals($queryParams, $this->serverRequest->withQueryParams($queryParams)->getQueryParams());
 	}
 
 	public function testGetUploadedFiles()

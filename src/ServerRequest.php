@@ -127,11 +127,11 @@ class ServerRequest extends Request implements ServerRequestInterface
 	 */
 	private function initQueryParams($serverParams)
 	{
-		if (!isset($serverParams['REQUEST_URI']) || !($query = parse_url($serverParams['REQUEST_URI'], \PHP_URL_QUERY))) {
-			return [];
-		}
+		$result = [];
 
-		parse_str($query, $result);
+		if (isset($serverParams['REQUEST_URI']) && ($query = parse_url($serverParams['REQUEST_URI'], \PHP_URL_QUERY))) {
+			parse_str($query, $result);
+		}
 
 		return $result;
 	}
