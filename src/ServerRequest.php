@@ -122,7 +122,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 	/**
 	 * Initialize the headers.
 	 *
-	 * @param string $uri
+	 * @param string $serverParams
 	 * @return array the headers.
 	 */
 	private function initQueryParams($serverParams)
@@ -133,7 +133,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 			parse_str($query, $result);
 		}
 
-		return $result;
+		return $result ?? [];
 	}
 
 	/**
@@ -332,7 +332,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 	 * Checks if a content type header exists with the given content type.
 	 *
 	 * @param string $contentType
-	 * @return true if a content type header exists with the given content type.
+	 * @return bool true if a content type header exists with the given content type.
 	 */
 	private function hasContentType($contentType)
 	{
