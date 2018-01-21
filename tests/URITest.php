@@ -157,14 +157,14 @@ class URITest extends TestCase
 	 */
 	public function testWithPath()
 	{
-		$this->assertEquals('',  $this->uri->withPath('')->getPath());
-		$this->assertEquals('file',  $this->uri->withPath('file')->getPath());
-		$this->assertEquals('directory/',  $this->uri->withPath('directory/')->getPath());
-		$this->assertEquals('directory/file',  $this->uri->withPath('directory/file')->getPath());
-		$this->assertEquals('/',  $this->uri->withPath('/')->getPath());
-		$this->assertEquals('/file',  $this->uri->withPath('/file')->getPath());
-		$this->assertEquals('/directory/',  $this->uri->withPath('/directory/')->getPath());
-		$this->assertEquals('/directory/file',  $this->uri->withPath('/directory/file')->getPath());
+		$this->assertEquals('', $this->uri->withPath('')->getPath());
+		$this->assertEquals('file', $this->uri->withPath('file')->getPath());
+		$this->assertEquals('directory/', $this->uri->withPath('directory/')->getPath());
+		$this->assertEquals('directory/file', $this->uri->withPath('directory/file')->getPath());
+		$this->assertEquals('/', $this->uri->withPath('/')->getPath());
+		$this->assertEquals('/file', $this->uri->withPath('/file')->getPath());
+		$this->assertEquals('/directory/', $this->uri->withPath('/directory/')->getPath());
+		$this->assertEquals('/directory/file', $this->uri->withPath('/directory/file')->getPath());
 		$this->assertNotSame($this->uri, $this->uri->withPath(''));
 	}
 
