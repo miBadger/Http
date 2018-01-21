@@ -138,8 +138,8 @@ class URITest extends TestCase
 
 	/**
 	 * @depends testGetPort
- 	 * @expectedException \InvalidArgumentException
- 	 * @expectedExceptionMessage Invalid port
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Invalid port
 	 */
 	public function testWithInvalidPort()
 	{

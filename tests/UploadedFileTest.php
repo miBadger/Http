@@ -52,7 +52,7 @@ class UploadedFileTest extends TestCase
 
 	/**
 	 * @expectedException RuntimeException
- 	 * @expectedExceptionMessage Can't move the file
+	 * @expectedExceptionMessage Can't move the file
 	 */
 	public function testMoveToSubsequent()
 	{
@@ -62,7 +62,7 @@ class UploadedFileTest extends TestCase
 
 	/**
 	 * @expectedException RuntimeException
- 	 * @expectedExceptionMessage Can't move the file
+	 * @expectedExceptionMessage Can't move the file
 	 */
 	public function testMoveToError()
 	{

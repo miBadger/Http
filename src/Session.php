@@ -51,9 +51,7 @@ class Session implements \IteratorAggregate
 			session_name($name);
 		}
 
-		if (!session_start()) {
-			throw new \RuntimeException('Failed to start a new session.');
-		}
+		session_start();
 	}
 
 	/**
