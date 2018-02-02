@@ -10,12 +10,14 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The status response exception test class.
  *
  * @since 1.0.0
  */
-class ServerResponseExceptionTest extends \PHPUnit_Framework_TestCase
+class ServerResponseExceptionTest extends TestCase
 {
 	/** @var ServerResponse The server response. */
 	private $serverResponse;

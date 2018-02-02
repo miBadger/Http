@@ -10,12 +10,14 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The URI test class.
  *
  * @since 1.0.0
  */
-class URITest extends \PHPUnit_Framework_TestCase
+class URITest extends TestCase
 {
 	/** @var URI The URI. */
 	private $uri;
@@ -136,8 +138,8 @@ class URITest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testGetPort
- 	 * @expectedException \InvalidArgumentException
- 	 * @expectedExceptionMessage Invalid port
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Invalid port
 	 */
 	public function testWithInvalidPort()
 	{
@@ -155,14 +157,14 @@ class URITest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testWithPath()
 	{
-		$this->assertEquals('',  $this->uri->withPath('')->getPath());
-		$this->assertEquals('file',  $this->uri->withPath('file')->getPath());
-		$this->assertEquals('directory/',  $this->uri->withPath('directory/')->getPath());
-		$this->assertEquals('directory/file',  $this->uri->withPath('directory/file')->getPath());
-		$this->assertEquals('/',  $this->uri->withPath('/')->getPath());
-		$this->assertEquals('/file',  $this->uri->withPath('/file')->getPath());
-		$this->assertEquals('/directory/',  $this->uri->withPath('/directory/')->getPath());
-		$this->assertEquals('/directory/file',  $this->uri->withPath('/directory/file')->getPath());
+		$this->assertEquals('', $this->uri->withPath('')->getPath());
+		$this->assertEquals('file', $this->uri->withPath('file')->getPath());
+		$this->assertEquals('directory/', $this->uri->withPath('directory/')->getPath());
+		$this->assertEquals('directory/file', $this->uri->withPath('directory/file')->getPath());
+		$this->assertEquals('/', $this->uri->withPath('/')->getPath());
+		$this->assertEquals('/file', $this->uri->withPath('/file')->getPath());
+		$this->assertEquals('/directory/', $this->uri->withPath('/directory/')->getPath());
+		$this->assertEquals('/directory/file', $this->uri->withPath('/directory/file')->getPath());
 		$this->assertNotSame($this->uri, $this->uri->withPath(''));
 	}
 

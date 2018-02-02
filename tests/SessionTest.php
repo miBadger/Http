@@ -10,31 +10,28 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The session test.
  *
  * @since 1.0.0
  */
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends TestCase
 {
-	public static function setUpBeforeClass()
-	{
-		$_SESSION = [];
-		Session::getInstance();
-	}
-
-	public static function tearDownAfterClass()
-	{
-		unset($_SESSION);
-	}
-
 	public function setUp()
 	{
+		$_SESSION = [];
 		$object = Session::getInstance();
 		$reflection = new \ReflectionClass(get_class($object));
 		$method = $reflection->getMethod('__construct');
 		$method->setAccessible(true);
 		$method->invokeArgs($object, []);
+	}
+
+	public function tearDown()
+	{
+		unset($_SESSION);
 	}
 
 	/**
@@ -47,13 +44,14 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @runInSeparateProcess
- 	 * @expectedException \RuntimeException
- 	 * @expectedExceptionMessage Can't start session
+	 * @expectedException \RuntimeException
+	 * @expectedExceptionMessage Can't start a new session.
 	 */
-	public function testStartException()
+	public function testStartExceptionStatus()
 	{
 		$this->assertNull(Session::start('test'));
-		$this->assertNull(Session::start('test'));
+
+		Session::start('test');
 	}
 
 	/**
@@ -67,14 +65,32 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @runInSeparateProcess
- 	 * @expectedException \RuntimeException
- 	 * @expectedExceptionMessage Can't destroy session
+	 * @expectedException \RuntimeException
+	 * @expectedExceptionMessage Can't destroy the session. There is no active session.
 	 */
-	public function testDestroyException()
+	public function testDestroyExceptionStatus()
 	{
 		$this->assertNull(Session::start());
 		$this->assertNull(Session::destroy());
-		$this->assertNull(Session::destroy());
+
+		Session::destroy();
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @expectedException \RuntimeException
+	 * @expectedExceptionMessage Failed to destroy the active session.
+	 */
+	public function testDestroyExceptionFailed()
+	{
+		$t = function () { return true; };
+		$f = function () { return false; };
+		$s = function () { return ''; };
+		session_set_save_handler($t, $t, $s, $t, $f, $t);
+
+		$this->assertNull(Session::start());
+
+		@Session::destroy();
 	}
 
 	public function testGet()

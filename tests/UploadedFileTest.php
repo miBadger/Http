@@ -15,12 +15,14 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
 use org\bovigo\vfs\vfsStreamWrapper;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The uploaded file test class.
  *
  * @since 1.0.0
  */
-class UploadedFileTest extends \PHPUnit_Framework_TestCase
+class UploadedFileTest extends TestCase
 {
 	/** @var File The file. */
 	private $filePath;
@@ -50,7 +52,7 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException RuntimeException
- 	 * @expectedExceptionMessage Can't move the file
+	 * @expectedExceptionMessage Can't move the file
 	 */
 	public function testMoveToSubsequent()
 	{
@@ -60,7 +62,7 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException RuntimeException
- 	 * @expectedExceptionMessage Can't move the file
+	 * @expectedExceptionMessage Can't move the file
 	 */
 	public function testMoveToError()
 	{

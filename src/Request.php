@@ -132,7 +132,7 @@ class Request extends Message implements RequestInterface
 	 * Set the uri.
 	 *
 	 * @param UriInterface $uri
-	 * @param boolean $preserveHost = false
+	 * @param bool $preserveHost = false
 	 * @return $this
 	 */
 	private function setUri(UriInterface $uri, $preserveHost = false)

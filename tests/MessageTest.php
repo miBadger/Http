@@ -10,12 +10,14 @@
 
 namespace miBadger\Http;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * The message test class.
  *
  * @since 1.0.0
  */
-class MessageTest extends \PHPUnit_Framework_TestCase
+class MessageTest extends TestCase
 {
 	/** @var array The headers. */
 	private $headers;
