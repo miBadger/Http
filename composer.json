@@ -19,8 +19,8 @@
 	],
 	"require": {
 		"php": "^7.0",
-		"mibadger/enum": "^1.0",
-		"mibadger/singleton": "^1.0",
+		"mibadger/enum": "^2.0",
+		"mibadger/singleton": "^2.0",
 		"psr/http-message": "^1.0",
 		"ralouphie/getallheaders": "^2.0"
 	},
