@@ -336,7 +336,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 	private function hasContentType($contentType)
 	{
 		foreach ($this->getHeader('Content-Type') as $key => $value) {
-			if (substr($value, 0, strlen($contentType)) == $contentType) {
+			if (mb_substr($value, 0, strlen($contentType)) == $contentType) {
 				return true;
 			}
 		}
