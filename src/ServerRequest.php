@@ -321,7 +321,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 		}
 
 		if ($this->hasContentType('application/json')) {
-			return json_decode((string) $this->getBody());
+			return json_decode((string) $this->getBody(), true);
 		}
 
 		return null;

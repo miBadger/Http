@@ -198,7 +198,7 @@ class ServerRequestTest extends TestCase
 		$serverRequest = $serverRequest->withHeader('Content-Type', 'application/json')
 			->withBody($stream);
 
-		$this->assertEquals(json_decode($body), $serverRequest->getParsedBody());
+		$this->assertEquals(json_decode($body, true), $serverRequest->getParsedBody());
 	}
 
 	public function testWithParsedBody()
