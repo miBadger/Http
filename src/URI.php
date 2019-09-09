@@ -186,7 +186,7 @@ class URI implements UriInterface
 			case static::DIRECTORY:
 				$directory = $this->getDirectory();
 
-				if ($result !== '' && $directory !== '' && substr($directory, 0, 1) !== static::DELIMITER_PATH) {
+				if ($result !== '' && $directory !== '' && mb_substr($directory, 0, 1) !== static::DELIMITER_PATH) {
 					$result .= static::DELIMITER_PATH;
 				}
 
@@ -201,7 +201,7 @@ class URI implements UriInterface
 			case static::FILE:
 				$file = $this->getFile();
 
-				if ($result !== '' && substr($result, -1) !== static::DELIMITER_PATH && $file !== '') {
+				if ($result !== '' && mb_substr($result, -1) !== static::DELIMITER_PATH && $file !== '') {
 					$result .= static::DELIMITER_PATH;
 				}
 
@@ -279,7 +279,7 @@ class URI implements UriInterface
 			return '';
 		}
 
-		return substr($this->getUri(self::USERNAME, self::PORT), 2);
+		return mb_substr($this->getUri(self::USERNAME, self::PORT), 2);
 	}
 
 	/**
@@ -395,7 +395,7 @@ class URI implements UriInterface
 	{
 		$result = $this->getDirectory();
 
-		if ($result !== '' && substr($result, -1) !== static::DELIMITER_PATH && $this->getFile()) {
+		if ($result !== '' && mb_substr($result, -1) !== static::DELIMITER_PATH && $this->getFile()) {
 			$result .= static::DELIMITER_PATH;
 		}
 
@@ -419,13 +419,13 @@ class URI implements UriInterface
 		}
 
 		// If the path ends with '/'. Then there is no file.
-		if (substr($path, -1) === static::DELIMITER_PATH) {
+		if (mb_substr($path, -1) === static::DELIMITER_PATH) {
 			$directory = $path;
 			$file = '';
 		}
 
 		// If the dirname and basename are both set. Then add the missing '/'.
-		if (substr($directory, -1) !== static::DELIMITER_PATH && $directory !== '' && $file !== '') {
+		if (mb_substr($directory, -1) !== static::DELIMITER_PATH && $directory !== '' && $file !== '') {
 			$directory .= static::DELIMITER_PATH;
 		}
 
