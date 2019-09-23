@@ -315,17 +315,15 @@ class ServerRequest extends Request implements ServerRequestInterface
 		if ($this->parsedBody !== null) {
 			return $this->parsedBody;
 		}
-
 		if ($this->getMethod() === 'POST' && ($this->hasContentType('application/x-www-form-urlencoded') || $this->hasContentType('multipart/form-data'))) {
 			return $this->postParams;
 		}
-
-		if ($this->hasContentType('application/json')) {
+		if ($this->hasContentType('application/json') || $this->hasContentType('text/plain')) {
 			return json_decode((string) $this->getBody(), true);
 		}
-
 		return null;
 	}
+
 
 	/**
 	 * Checks if a content type header exists with the given content type.

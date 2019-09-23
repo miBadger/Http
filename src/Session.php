@@ -37,19 +37,22 @@ class Session implements \IteratorAggregate
 	 * Initialize the session, if none exists.
 	 *
 	 * @param $name = null
+	 * @param $domain bool 
 	 * @return null
 	 * @throws \RuntimeException on failure.
 	 */
-	public static function start($name = null)
+	public static function start($name = null, $domain = false)
 	{
 		if (session_status() !== PHP_SESSION_NONE) {
 			throw new \RuntimeException('Can\'t start a new session.');
 		}
-
 		if ($name !== null) {
 			session_name($name);
 		}
-
+		if ($domain){
+			preg_match("/[^\.\/]+\.[^\.\/]+$/", $_SERVER['HTTP_HOST'], $matches);
+			session_set_cookie_params(0, '/', $matches[0]);
+		}
 		session_start();
 	}
 
