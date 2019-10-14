@@ -201,6 +201,24 @@ class ServerRequestTest extends TestCase
 		$this->assertEquals(json_decode($body, true), $serverRequest->getParsedBody());
 	}
 
+	/**
+	 * @expectedException \JsonException
+	 * @expectedExceptionMessage Syntax error
+	 */
+	public function testGetParsedBodyInvalidJson()
+	{
+		$body = '%%!123';
+
+		$stream = new Stream(fopen('php://temp', 'r+'));
+		$stream->write($body);
+
+		$serverRequest = new ServerRequest('POST');
+		$serverRequest = $serverRequest->withHeader('Content-Type', 'application/json')
+			->withBody($stream);		
+
+		$serverRequest->getParsedBody();
+	}
+
 	public function testWithParsedBody()
 	{
 		$serverRequest = $this->serverRequest->withParsedBody('body');

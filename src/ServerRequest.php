@@ -309,6 +309,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
 	/**
 	 * {@inheritdoc}
+	 * @throws \JsonException
 	 */
 	public function getParsedBody()
 	{
@@ -319,7 +320,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 			return $this->postParams;
 		}
 		if ($this->hasContentType('application/json') || $this->hasContentType('text/plain')) {
-			return json_decode((string) $this->getBody(), true);
+			return json_decode((string) $this->getBody(), true, 512, \JSON_THROW_ON_ERROR);
 		}
 		return null;
 	}
