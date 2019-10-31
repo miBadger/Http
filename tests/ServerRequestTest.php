@@ -27,7 +27,7 @@ class ServerRequestTest extends TestCase
 	/** @var ServerRequest The server request. */
 	private $serverRequest;
 
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		self::$server = $_SERVER;
 		self::$files = $_FILES;
@@ -68,13 +68,13 @@ class ServerRequestTest extends TestCase
 		];
 	}
 
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		$_FILES = self::$files;
 		$_SERVER = self::$server;
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->serverRequest = new ServerRequest();
 	}
@@ -201,12 +201,11 @@ class ServerRequestTest extends TestCase
 		$this->assertEquals(json_decode($body, true), $serverRequest->getParsedBody());
 	}
 
-	/**
-	 * @expectedException \JsonException
-	 * @expectedExceptionMessage Syntax error
-	 */
 	public function testGetParsedBodyInvalidJson()
 	{
+		$this->expectException(\JsonException::class);
+		$this->expectExceptionMessage('Syntax error');
+
 		$body = '%%!123';
 
 		$stream = new Stream(fopen('php://temp', 'r+'));
@@ -214,7 +213,7 @@ class ServerRequestTest extends TestCase
 
 		$serverRequest = new ServerRequest('POST');
 		$serverRequest = $serverRequest->withHeader('Content-Type', 'application/json')
-			->withBody($stream);		
+			->withBody($stream);
 
 		$serverRequest->getParsedBody();
 	}

@@ -29,7 +29,7 @@ class UploadedFileTest extends TestCase
 	/** @var UploadedFile The uploaded file. */
 	private $uploadedFile;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		vfsStreamWrapper::register();
 		vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
@@ -49,22 +49,20 @@ class UploadedFileTest extends TestCase
 		$this->assertNull($this->uploadedFile->moveTo(vfsStream::url('test/name.txt')));
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Can't move the file
-	 */
 	public function testMoveToSubsequent()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Can\'t move the file');
+
 		$this->assertNull($this->uploadedFile->moveTo(vfsStream::url('test/name.txt')));
 		$this->uploadedFile->moveTo(vfsStream::url('test/name.txt'));
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Can't move the file
-	 */
 	public function testMoveToError()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Can\'t move the file');
+
 		$uploadedFile = new UploadedFile('error.txt', 'text/plain', 'error.txt', UPLOAD_ERR_NO_FILE, 0);
 		$uploadedFile->moveTo(vfsStream::url('test/name.txt'));
 	}

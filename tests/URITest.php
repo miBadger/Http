@@ -21,17 +21,16 @@ class URITest extends TestCase
 	/** @var URI The URI. */
 	private $uri;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->uri = new URI('http://username:password@www.example.org:123/directory/file?key=value#fragment');
 	}
 
-	/**
-	 * @expectedException \UnexpectedValueException
-	 * @expectedExceptionMessage Invalid uri
-	 */
 	public function test__ConstructInvalidUri()
 	{
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Invalid uri');
+
 		new URI('http:///www.example.org');
 	}
 
@@ -137,11 +136,12 @@ class URITest extends TestCase
 
 	/**
 	 * @depends testGetPort
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Invalid port
 	 */
 	public function testWithInvalidPort()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Invalid port');
+
 		$this->uri->withPort(123456789);
 	}
 

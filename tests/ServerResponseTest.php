@@ -21,7 +21,7 @@ class ServerResponseTest extends TestCase
 	/** @var ServerResponse The server response. */
 	private $serverResponse;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->serverResponse = (new ServerResponse(200))->withHeader('Server', 'miWebb');
 	}
