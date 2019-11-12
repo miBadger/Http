@@ -27,7 +27,7 @@ class MessageTest extends TestCase
 	/** @var Stream The stream. */
 	private $stream;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->headers = [
 			'Accept-Charset' => ['utf-8'],

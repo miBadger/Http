@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionTest extends TestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$_SESSION = [];
 		$object = Session::getInstance();
@@ -28,7 +28,7 @@ class SessionTest extends TestCase
 		$method->invokeArgs($object, []);
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		unset($_SESSION);
 	}
@@ -43,13 +43,13 @@ class SessionTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
-	 * @expectedException \RuntimeException
-	 * @expectedExceptionMessage Can't start a new session.
 	 */
 	public function testStartExceptionStatus()
 	{
-		$this->assertNull(Session::start('test'));
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Can\'t start a new session.');
 
+		$this->assertNull(Session::start('test'));
 		Session::start('test');
 	}
 
@@ -64,11 +64,12 @@ class SessionTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
-	 * @expectedException \RuntimeException
-	 * @expectedExceptionMessage Can't destroy the session. There is no active session.
 	 */
 	public function testDestroyExceptionStatus()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Can\'t destroy the session. There is no active session.');
+
 		$this->assertNull(Session::start());
 		$this->assertNull(Session::destroy());
 
@@ -77,11 +78,12 @@ class SessionTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
-	 * @expectedException \RuntimeException
-	 * @expectedExceptionMessage Failed to destroy the active session.
 	 */
 	public function testDestroyExceptionFailed()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Failed to destroy the active session.');
+
 		$t = function () { return true; };
 		$f = function () { return false; };
 		$s = function () { return ''; };

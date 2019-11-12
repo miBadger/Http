@@ -27,7 +27,7 @@ class StreamTest extends TestCase
 	/** @var int The level. */
 	private $level;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->resource = fopen('php://temp', 'r+');
 		fwrite($this->resource, 'test');
@@ -36,12 +36,11 @@ class StreamTest extends TestCase
 		$this->stream = new Stream($this->resource);
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage Invalid resource
-	 */
 	public function test__contruct()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Invalid resource');
+
 		new Stream(null);
 	}
 
@@ -89,12 +88,11 @@ class StreamTest extends TestCase
 		$this->assertEquals(0, $this->stream->tell());
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Error while getting the position of the pointer
-	 */
 	public function testTellError()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Error while getting the position of the pointer');
+
 		fclose($this->resource);
 		@$this->stream->tell();
 	}
@@ -114,22 +112,20 @@ class StreamTest extends TestCase
 		$this->assertNull($this->stream->seek(0));
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Stream is not seekable
-	 */
 	public function testSeekFail()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Stream is not seekable');
+
 		$this->assertEquals($this->resource, $this->stream->detach());
 		$this->stream->seek(0);
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Error while seeking the stream
-	 */
 	public function testSeekError()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Error while seeking the stream');
+
 		$this->assertTrue(fclose($this->resource));
 		@$this->stream->seek(0);
 	}
@@ -149,22 +145,20 @@ class StreamTest extends TestCase
 		$this->assertEquals(strlen('test'), $this->stream->write('test'));
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Stream is not writable
-	 */
 	public function testWriteFail()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Stream is not writable');
+
 		$this->assertEquals($this->resource, $this->stream->detach());
 		$this->stream->write('test');
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Error while writing the stream
-	 */
 	public function testWriteError()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Error while writing the stream');
+
 		$this->assertTrue(fclose($this->resource));
 		@$this->stream->write('test');
 	}
@@ -182,22 +176,20 @@ class StreamTest extends TestCase
 		$this->assertEquals('t', $this->stream->read(1));
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Stream is not readable
-	 */
 	public function testReadFail()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Stream is not readable');
+
 		$this->assertEquals($this->resource, $this->stream->detach());
 		$this->stream->read(1024);
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 * @expectedExceptionMessage Error while reading the stream
-	 */
 	public function testReadError()
 	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Error while reading the stream');
+
 		$this->assertTrue(fclose($this->resource));
 		@$this->stream->read(1024);
 	}

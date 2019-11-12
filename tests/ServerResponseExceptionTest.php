@@ -24,7 +24,7 @@ class ServerResponseExceptionTest extends TestCase
 	/** @var ServerResponse The server response. */
 	private $serverResponseException;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->serverResponse = new ServerResponse(404);
 		$this->serverResponseException = new ServerResponseException($this->serverResponse);
@@ -35,13 +35,12 @@ class ServerResponseExceptionTest extends TestCase
 		$this->assertEquals($this->serverResponse, $this->serverResponseException->getServerResponse());
 	}
 
-	/**
-	 * @expectedException miBadger\Http\ServerResponseException
-	 * @expectedExceptionCode 404
-	 * @expectedExceptionMessage Not Found
-	 */
 	public function testThrow()
 	{
+		$this->expectException(ServerResponseException::class);
+		$this->expectExceptionCode(404);
+		$this->expectExceptionMessage('Not Found');
+
 		throw $this->serverResponseException;
 	}
 }

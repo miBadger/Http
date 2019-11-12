@@ -21,7 +21,7 @@ class RequestTest extends TestCase
 	/** @var Request The request. */
 	private $request;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->uri = new URI('/directory/file?key=value');
 		$this->request = new Request('GET', $this->uri);

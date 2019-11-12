@@ -21,7 +21,7 @@ class ResponseTest extends TestCase
 	/** @var Response The response. */
 	private $response;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->response = new Response(200);
 	}
