@@ -11,8 +11,11 @@ The HTTP Component.
 
 This package implements the [PSR-7 HTTP message interfaces](http://www.php-fig.org/psr/psr-7/) so you can easily swap this package with other PSR-7 compatible package. Check the [official PHP Framework Interop Group website](http://www.php-fig.org) for information about the [PSR recommendations](http://www.php-fig.org/psr/).
 
-## Example
+## Changelog
+### 4.0.0
+- php requirement changed to 7.3. 
+- version 3.0.x can be considered broken when using php < 7.3, and it is adviced to update immediately.
 
-```php
-
-```
+### 3.0.0
+- Adding utf-8 support
+- getParsedBody now always returns a nested array structure
