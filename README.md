@@ -14,7 +14,7 @@ This package implements the [PSR-7 HTTP message interfaces](http://www.php-fig.o
 ## Changelog
 ### 4.0.0
 - php requirement changed to 7.3. 
-- version 3.0.x can be considered broken when using php < 7.3, and it is adviced to update immediately.
+- version 3.0.x can be considered broken when using php < 7.3, and it is advised to update immediately.
 
 ### 3.0.0
 - Adding utf-8 support

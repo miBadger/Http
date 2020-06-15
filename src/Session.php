@@ -24,7 +24,7 @@ class Session implements \IteratorAggregate
 	private $session;
 
 	/**
-	 * Construct a Sesssion object.
+	 * Construct a Session object.
 	 *
 	 * @global array $_SESSION The session parameters.
 	 */
